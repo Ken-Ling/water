@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>费用计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <label for="AAA">——计算水费——</label>
+
+    <label for="inputA">0-22阶梯价（含污水、垃圾处理费）:</label>
+    <input type="number" id="inputA" value="4.26" readonly>
+
+    <label for="inputB">23-30阶梯价（含污水、垃圾处理费）:</label>
+    <input type="number" id="inputB" value="6.1" readonly>
+
+    <label for="inputC">31以上阶梯价（含污水、垃圾处理费）:</label>
+    <input type="number" id="inputC" value="11.6" readonly>
+
+    <label for="inputE">实际度数:</label>
+    <input type="number" id="inputE" step="0.01" placeholder="Enter E">
+
+    <button onclick="calculate()">计算</button>
+
+    <p id="result"></p>
+
+    <script>
+        function calculate() {
+            // 获取输入的值
+            var A = parseFloat(document.getElementById('inputA').value) || 0;
+            var B = parseFloat(document.getElementById('inputB').value) || 0;
+            var C = parseFloat(document.getElementById('inputC').value) || 0;
+            var E = parseFloat(document.getElementById('inputE').value) || 0;
+
+            // 保留小数点后两位
+            E = Math.round(E * 100) / 100;
+
+            // 根据规则计算费用
+            var cost = 0;
+
+            if (E > 31) {
+                cost = 22*4.26+(31-22)*6.1+(E-31)*11.6;
+            } else if (E > 22) {
+                cost = 22*4.26+(E-22)*6.1;
+            } else {
+                cost = E*4.26;
+            }
+            // 保留小数点后两位
+            cost = cost.toFixed(2);
+
+            // 显示计算结果
+            document.getElementById('result').innerText = '包含污水和垃圾处理费合计总额 = ' + cost + '元';
+        }
+    </script>
+<img src="http://swj.sz.gov.cn/img/4/4070/4070415/11012513.png" alt="水价">
+
+</body>
+</html>
